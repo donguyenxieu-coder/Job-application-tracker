@@ -43,7 +43,7 @@ function App() {
   return (
     <div>
       <main>
-        <h1>Job Application Tracker</h1>
+        <h1 className="text-3xl font-bold">Job Application Tracker</h1>
         <JobStats jobs={jobs} />
         <JobToolbar
           search={search}
