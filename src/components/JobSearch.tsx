@@ -10,7 +10,6 @@ function JobSearch({ search, onSearchChange }: JobSearchProps) {
         value={search}
         onChange={(e) => onSearchChange(e.target.value)}
       />
-      <p>{search}</p>
     </div>
   );
 }

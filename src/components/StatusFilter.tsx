@@ -1,16 +1,36 @@
+import type { JobFilterStatus } from "../types/job";
+
 type StatusFilterProps = {
-  status: string;
-  onStatusChange: (value: string) => void;
+  status: JobFilterStatus;
+  onStatusChange: (value: JobFilterStatus) => void;
 };
+
+const statusOptions: JobFilterStatus[] = [
+  "All",
+  "Applied",
+  "Interview",
+  "Offer",
+  "Rejected",
+];
+
 function StatusFilter({ status, onStatusChange }: StatusFilterProps) {
   return (
     <div>
-      <select value={status} onChange={(e) => onStatusChange(e.target.value)}>
-        <option value="All">All</option>
-        <option value="Applied">Applied</option>
-        <option value="Interview">Interview</option>
-        <option value="Offer">Offer</option>
-        <option value="Rejected">Rejected</option>
+      <select
+        value={status}
+        onChange={(e) => {
+          const nextStatus = statusOptions.find(
+            (option) => option === e.target.value,
+          );
+
+          if (nextStatus) onStatusChange(nextStatus);
+        }}
+      >
+        {statusOptions.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
       </select>
     </div>
   );

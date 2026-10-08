@@ -1,8 +1,10 @@
 import JobSearch from "./JobSearch";
 import StatusFilter from "./StatusFilter";
+import type { JobFilterStatus } from "../types/job";
+
 type JobToolbarProps = {
-  status: string;
-  onStatusChange: (value: string) => void;
+  status: JobFilterStatus;
+  onStatusChange: (value: JobFilterStatus) => void;
   search: string;
   onSearchChange: (value: string) => void;
 };

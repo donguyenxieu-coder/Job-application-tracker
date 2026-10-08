@@ -2,8 +2,9 @@ import { useState } from "react";
 import JobList from "./components/JobList";
 import JobStats from "./components/JobStats";
 import JobToolbar from "./components/JobToolbar";
+import type { Job, JobFilterStatus } from "./types/job";
 
-const jobs = [
+const jobs: Job[] = [
   {
     id: 1,
     position: "Frontend Developer",
@@ -29,7 +30,7 @@ const jobs = [
 
 function App() {
   const [search, setSearch] = useState("");
-  const [status, setStatus] = useState("All");
+  const [status, setStatus] = useState<JobFilterStatus>("All");
   const filteredJobs = jobs.filter((job) => {
     const matchesSearch =
       job.position.toLowerCase().includes(search.toLowerCase()) ||

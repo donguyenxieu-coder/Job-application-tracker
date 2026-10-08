@@ -1,12 +1,5 @@
 import JobCard from "./JobCard";
-
-type Job = {
-  id: number;
-  position: string;
-  company: string;
-  status: string;
-  appliedDate: string;
-};
+import type { Job } from "../types/job";
 
 type JobListProps = {
   jobs: Job[];

@@ -1,7 +1,9 @@
+import type { JobStatus } from "../types/job";
+
 type JobCardProps = {
   position: string;
   company: string;
-  status: string;
+  status: JobStatus;
   appliedDate: string;
 };
 

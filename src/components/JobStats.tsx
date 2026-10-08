@@ -1,10 +1,4 @@
-type Job = {
-  id: number;
-  position: string;
-  company: string;
-  status: string;
-  appliedDate: string;
-};
+import type { Job } from "../types/job";
 
 type JobStatsProps = {
   jobs: Job[];
