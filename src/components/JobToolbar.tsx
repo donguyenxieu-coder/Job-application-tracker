@@ -16,7 +16,7 @@ function JobToolbar({
   onSearchChange,
 }: JobToolbarProps) {
   return (
-    <div>
+    <div className="flex mt-6 flex-col gap-3 sm:flex-row sm:items-center w-full">
       <JobSearch search={search} onSearchChange={onSearchChange} />
       <StatusFilter status={status} onStatusChange={onStatusChange} />
     </div>

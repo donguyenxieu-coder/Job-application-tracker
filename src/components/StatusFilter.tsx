@@ -15,8 +15,9 @@ const statusOptions: JobFilterStatus[] = [
 
 function StatusFilter({ status, onStatusChange }: StatusFilterProps) {
   return (
-    <div>
+    <div className="w-full sm:w-auto">
       <select
+        className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-slate-400 focus:ring-2 focus:ring-slate-200 cursor-pointer"
         value={status}
         onChange={(e) => {
           const nextStatus = statusOptions.find(

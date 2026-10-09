@@ -7,7 +7,7 @@ type JobListProps = {
 
 function JobList({ jobs }: JobListProps) {
   return (
-    <div>
+    <div className="mt-6 space-y-4">
       {jobs.map((job) => (
         <JobCard
           key={job.id}

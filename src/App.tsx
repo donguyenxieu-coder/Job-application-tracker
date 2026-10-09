@@ -41,9 +41,22 @@ function App() {
     return matchesSearch && matchesStatus;
   });
   return (
-    <div>
-      <main>
-        <h1 className="text-3xl font-bold">Job Application Tracker</h1>
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+              Job Application Tracker
+            </h1>
+            <p className="mt-1 text-sm text-slate-500">
+              Track and manage your job applications
+            </p>
+          </div>
+          <button className="border px-4 py-2 text-sm font-medium cursor-pointer bg-green-300 hover:bg-green-400 rounded w-full sm:w-auto">
+            + Add Job
+          </button>
+        </header>
+
         <JobStats jobs={jobs} />
         <JobToolbar
           search={search}
