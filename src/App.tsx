@@ -2,35 +2,39 @@ import { useState } from "react";
 import JobList from "./components/JobList";
 import JobStats from "./components/JobStats";
 import JobToolbar from "./components/JobToolbar";
+import JobForm from "./components/JobForm";
 import type { Job, JobFilterStatus } from "./types/job";
 
-const jobs: Job[] = [
+const initialJobs: Job[] = [
   {
     id: 1,
     position: "Frontend Developer",
     company: "ABC Technology",
     status: "Applied",
-    appliedDate: "18/09/2026",
+    appliedDate: "2026-09-18",
   },
   {
     id: 2,
     position: "React Developer",
     company: "XYZ Software",
     status: "Interview",
-    appliedDate: "15/09/2026",
+    appliedDate: "2026-11-18",
   },
   {
     id: 3,
     position: "Junior Frontend Developer",
     company: "NextGen Solutions",
     status: "Offer",
-    appliedDate: "10/09/2026",
+    appliedDate: "2026-09-12",
   },
 ];
 
 function App() {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState<JobFilterStatus>("All");
+  const [jobs, setJobs] = useState<Job[]>(initialJobs);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [editingJob, setEditingJob] = useState<Job | null>(null);
   const filteredJobs = jobs.filter((job) => {
     const matchesSearch =
       job.position.toLowerCase().includes(search.toLowerCase()) ||
@@ -40,6 +44,46 @@ function App() {
 
     return matchesSearch && matchesStatus;
   });
+  const handleCreateJob = (values: Omit<Job, "id">) => {
+    const newJob: Job = {
+      id: Date.now(),
+      ...values,
+    };
+    setJobs((prevJobs) => {
+      return [...prevJobs, newJob];
+    });
+    setIsFormOpen(false);
+  };
+  const handleDeleteJob = (id: number) => {
+    setJobs((prevJobs) => {
+      return prevJobs.filter((job) => job.id !== id);
+    });
+  };
+
+  const handleStartEdit = (id: number) => {
+    const jobtoEdit = jobs.find((job) => job.id === id);
+    if (!jobtoEdit) return;
+    setEditingJob(jobtoEdit);
+    setIsFormOpen(true);
+  };
+
+  const handleUpdateJob = (values: Omit<Job, "id">) => {
+    if (!editingJob) return;
+    setJobs((prevJobs) => {
+      return prevJobs.map((job) => {
+        if (job.id === editingJob.id) {
+          return {
+            id: editingJob.id,
+            ...values,
+          };
+        }
+        return job;
+      });
+    });
+    setEditingJob(null);
+    setIsFormOpen(false);
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -52,11 +96,27 @@ function App() {
               Track and manage your job applications
             </p>
           </div>
-          <button className="border px-4 py-2 text-sm font-medium cursor-pointer bg-green-300 hover:bg-green-400 rounded w-full sm:w-auto">
+          <button
+            onClick={() => {
+              setEditingJob(null);
+              setIsFormOpen(true);
+            }}
+            className="border px-4 py-2 text-sm font-medium cursor-pointer bg-green-300 hover:bg-green-400 rounded w-full sm:w-auto"
+          >
             + Add Job
           </button>
         </header>
-
+        {isFormOpen && (
+          <JobForm
+            onCancel={() => {
+              setEditingJob(null);
+              setIsFormOpen(false);
+            }}
+            onSubmit={editingJob ? handleUpdateJob : handleCreateJob}
+            initialValues={editingJob ?? undefined}
+            isEditing={Boolean(editingJob)}
+          />
+        )}
         <JobStats jobs={jobs} />
         <JobToolbar
           search={search}
@@ -64,7 +124,11 @@ function App() {
           status={status}
           onStatusChange={setStatus}
         />
-        <JobList jobs={filteredJobs} />
+        <JobList
+          jobs={filteredJobs}
+          onDelete={handleDeleteJob}
+          onEdit={handleStartEdit}
+        />
       </main>
     </div>
   );
