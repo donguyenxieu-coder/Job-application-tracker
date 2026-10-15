@@ -1,32 +1,138 @@
-# React + TypeScript + Vite
+# Job Application Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+## Overview
 
-Currently, two official plugins are available:
+A responsive frontend application for tracking job applications and practicing a real CRUD workflow connected to a backend API.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- View job applications
+- Create, edit, and delete jobs
+- Search by position or company
+- Filter jobs by status
+- Dashboard statistics for total, applied, interview, and offer jobs
+- Form validation for required job fields
+- Loading, error, empty, submitting, and deleting states
+- Responsive layout
+- Persistent job data through the project API/backend
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the Oxlint configuration
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- React Hook Form
+- Zod and `@hookform/resolvers`
+- The project uses Supabase for its backend/API
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+## Frontend Architecture / Structure
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+- `App.tsx` owns application state, derived search/filter data, and async CRUD handlers.
+- Reusable components render the job form, list, cards, statistics, search, and status filter.
+- Shared `Job` types keep the UI and service layer aligned.
+- `jobService` contains the REST API requests.
+- React Hook Form and Zod handle form validation and edit-form values.
+
+## Key Frontend Concepts Demonstrated
+
+- Source state (`jobs`) and derived filtered data
+- Immutable create, update, and delete state updates
+- `useEffect` for initial API loading
+- `async`/`await` with `try`/`catch`/`finally`
+- Service layer separation for API requests
+- TypeScript `Omit` and `Partial` for job payloads
+- React Hook Form with Zod validation
+- Default form values and edit-form synchronization
+- Loading, error, empty, submitting, and deleting UI states
+- Responsive Tailwind layouts and semantic status/action styling
+
+## API Flow
+
+```text
+UI / Form
+  → React handler
+  → jobService
+  → REST API
+  → backend / database
+  → response
+  → React state
+  → UI update
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Environment Variables
+
+Create a `.env` file and provide the API endpoint used by the frontend:
+
+```env
+VITE_JOBS_API_URL=your-api-endpoint
+```
+
+Do not place secrets in frontend environment variables.
+
+## Getting Started
+
+1. Clone the repository.
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Create `.env` and set `VITE_JOBS_API_URL` to the job API endpoint.
+4. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+Other available commands:
+
+```bash
+npm run lint
+npm run build
+npm run preview
+```
+
+## Project Structure
+
+```text
+src/
+  components/
+    JobCard.tsx
+    JobForm.tsx
+    JobList.tsx
+    JobSearch.tsx
+    JobStats.tsx
+    JobToolbar.tsx
+    StatusFilter.tsx
+  services/
+    jobService.ts
+  types/
+    job.ts
+  App.tsx
+```
+
+## Screenshots
+
+### Desktop
+
+![Job Application Tracker desktop](docs/screenshots/desktop.jpg)
+
+### Mobile
+
+![Job Application Tracker mobile](docs/screenshots/mobile.jpg)
+
+## What I Practiced / Learned
+
+- React state and derived data
+- TypeScript data modeling
+- Form validation
+- API integration
+- Async UI states
+- Responsive UI design fundamentals
+- Semantic UI states and action hierarchy
+
+## Status
+
+The core CRUD frontend is complete and currently passes lint and build checks.
